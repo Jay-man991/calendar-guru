@@ -1,10 +1,11 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 210 40% 98%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -13,7 +14,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 221.2 83% 53%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -22,32 +23,25 @@
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 262 83% 58%;
+    --accent-foreground: 210 40% 98%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --ring: 221.2 83% 53%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -61,7 +55,7 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
     --primary-foreground: 222.2 47.4% 11.2%;
 
     --secondary: 217.2 32.6% 17.5%;
@@ -70,7 +64,7 @@
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 262 83% 58%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 30.6%;
@@ -78,7 +72,8 @@
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --ring: 224.3 76.3% 48%;
+    
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -97,5 +92,174 @@
 
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
+}
+
+@layer components {
+  .datemate-card {
+    @apply relative overflow-hidden rounded-xl border bg-card px-6 py-5 shadow-sm transition-all hover:shadow-md;
+    backdrop-filter: blur(10px);
+  }
+
+  .glass-panel {
+    @apply bg-white/80 dark:bg-black/80 backdrop-blur-lg border rounded-xl shadow-sm;
+  }
+  
+  .pending-event {
+    @apply bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/40 dark:to-indigo-950/40;
+  }
+  
+  .confirmed-event {
+    @apply bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950/40 dark:to-emerald-950/40;
+  }
+  
+  .nav-link {
+    @apply relative flex items-center gap-2 p-2 px-3 text-muted-foreground font-medium rounded-lg hover:text-foreground hover:bg-accent/50 transition-all;
+  }
+  
+  .nav-link.active {
+    @apply text-foreground bg-accent/50;
+  }
+  
+  .nav-link .nav-indicator {
+    @apply absolute left-0 h-full w-1 rounded-r-md bg-primary opacity-0 transition-opacity;
+  }
+  
+  .nav-link.active .nav-indicator {
+    @apply opacity-100;
+  }
+  
+  .event-action-btn {
+    @apply flex items-center justify-center w-11 h-11 rounded-full transition-all;
+  }
+  
+  .btn-animation {
+    @apply hover:scale-105 active:scale-95 transition-transform;
+  }
+  
+  .onboarding-step {
+    @apply flex flex-col items-center text-center max-w-md mx-auto space-y-4;
+  }
+  
+  .platform-card {
+    @apply flex items-center px-4 py-3 rounded-lg border shadow-sm hover:shadow-md transition-all cursor-pointer;
+  }
+  
+  .platform-card.active {
+    @apply border-primary;
+  }
+}
+
+/* Animations */
+.animate-in-up {
+  animation: animateInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-in-down {
+  animation: animateInDown 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-in-left {
+  animation: animateInLeft 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-in-right {
+  animation: animateInRight 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes animateInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes animateInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes animateInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes animateInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Event card transitions */
+.event-enter {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.event-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.event-exit {
+  opacity: 1;
+}
+
+.event-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Smooth shadow transitions */
+.shadow-smooth {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.shadow-smooth:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
 }
