@@ -4,10 +4,13 @@ import Layout from '../components/Layout';
 import EventCard, { EventType } from '../components/EventCard';
 import EventForm from '../components/EventForm';
 import NotificationBubble from '../components/NotificationBubble';
+import MessageTester from '../components/MessageTester';
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AnimatePresence, motion } from 'framer-motion';
 import { toast } from "sonner";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { InfoIcon } from "lucide-react";
 
 // Mock data for demonstration
 const initialEvents: EventType[] = [
@@ -49,6 +52,7 @@ const Index = () => {
   const [selectedEvent, setSelectedEvent] = useState<EventType | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [showNotification, setShowNotification] = useState(true);
+  const [showTester, setShowTester] = useState(false);
   
   const pendingEvents = events.filter(event => event.status === 'pending');
   const confirmedEvents = events.filter(event => event.status === 'confirmed');
@@ -81,6 +85,14 @@ const Index = () => {
     ));
     toast.success("Calendar updated successfully!");
   };
+
+  const handleNewEventDetected = (newEvent: EventType) => {
+    // Add the new event to the list
+    setEvents(prevEvents => [newEvent, ...prevEvents]);
+    
+    // Show a notification for the new event
+    setShowNotification(true);
+  };
   
   const container = {
     hidden: { opacity: 0 },
@@ -99,12 +111,35 @@ const Index = () => {
 
   return (
     <Layout>
-      <header className="mb-8">
+      <header className="mb-6">
         <h1 className="text-3xl font-bold mb-2">Welcome back!</h1>
         <p className="text-muted-foreground">
           We've detected some new events from your messages. Review and add them to your calendar.
         </p>
+        <div className="flex gap-2 mt-4">
+          <Button 
+            variant={showTester ? "default" : "outline"} 
+            onClick={() => setShowTester(!showTester)}
+          >
+            {showTester ? "Hide Test Interface" : "Show Test Interface"}
+          </Button>
+        </div>
       </header>
+
+      {showTester && (
+        <Alert className="mb-6 bg-amber-50 border-amber-200 dark:bg-amber-950 dark:border-amber-800">
+          <InfoIcon className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+          <AlertTitle>Testing Mode</AlertTitle>
+          <AlertDescription>
+            This interface allows you to test the event detection capability. Enter messages with dates,
+            times, and event information to see how DateMate would process them in a real conversation.
+          </AlertDescription>
+        </Alert>
+      )}
+      
+      {showTester && (
+        <MessageTester onEventDetected={handleNewEventDetected} />
+      )}
       
       <Tabs defaultValue="pending" value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full max-w-md grid-cols-2 mb-6">
