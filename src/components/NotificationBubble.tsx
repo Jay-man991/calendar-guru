@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { X, ArrowRight, Calendar as CalendarIcon } from 'lucide-react';
+import { X, ArrowRight, Calendar as CalendarIcon, MessageCircle, Mail, Smartphone, MessageSquare } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { EventType } from './EventCard';
 
@@ -16,6 +16,38 @@ const NotificationBubble: React.FC<NotificationBubbleProps> = ({
   onOpen, 
   onDismiss 
 }) => {
+  // Map source to appropriate icon
+  const getSourceIcon = () => {
+    switch (event.source) {
+      case 'whatsapp':
+        return <MessageCircle className="h-4 w-4" />;
+      case 'email':
+        return <Mail className="h-4 w-4" />;
+      case 'sms':
+        return <Smartphone className="h-4 w-4" />;
+      case 'messenger':
+        return <MessageSquare className="h-4 w-4" />;
+      default:
+        return null;
+    }
+  };
+
+  // Get appropriate color for the source
+  const getSourceColor = () => {
+    switch (event.source) {
+      case 'whatsapp':
+        return 'text-green-500';
+      case 'email':
+        return 'text-blue-500';
+      case 'sms':
+        return 'text-orange-500';
+      case 'messenger':
+        return 'text-purple-500';
+      default:
+        return 'text-muted-foreground';
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 50, scale: 0.9 }}
@@ -41,9 +73,13 @@ const NotificationBubble: React.FC<NotificationBubbleProps> = ({
       
       <div className="p-4">
         <h4 className="font-medium mb-1">{event.title}</h4>
-        <p className="text-sm text-muted-foreground mb-3">
-          We detected this event from your recent {event.source} messages.
-        </p>
+        <div className="flex items-center gap-1.5 text-sm mb-3">
+          <span className={`inline-flex items-center gap-1 ${getSourceColor()}`}>
+            {getSourceIcon()}
+            <span className="capitalize">{event.source}</span>
+          </span>
+          <span className="text-muted-foreground">detected this event in your messages</span>
+        </div>
         
         <div className="flex items-center justify-end gap-2">
           <Button

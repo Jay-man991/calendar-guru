@@ -12,7 +12,8 @@ import {
   Clock, 
   Calendar, 
   Smartphone,
-  Zap
+  Zap,
+  Mail
 } from 'lucide-react';
 
 const Notifications = () => {
