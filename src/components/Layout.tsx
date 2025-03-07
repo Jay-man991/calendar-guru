@@ -17,7 +17,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <header className="py-4 px-4 bg-blue-500 text-white shadow-md flex items-center justify-between">
           <Logo size="md" className="text-white" />
           
-          <h1 className="text-xl font-semibold md:hidden">Review Events</h1>
+          {/* Removed the "Review Events" h1 heading */}
           <div className="hidden md:block"></div> {/* Spacer for mobile layout */}
         </header>
         
