@@ -28,7 +28,7 @@ const RegisterForm = () => {
       localStorage.setItem('user', JSON.stringify({ name, email }));
       
       toast.success("Registration successful! Welcome to Calendar Guru.");
-      navigate('/onboarding');
+      navigate('/dashboard');
     } catch (error) {
       toast.error("Registration failed. Please try again.");
     } finally {
@@ -37,10 +37,10 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="space-y-6 w-full max-w-md">
+    <div className="space-y-6 w-full max-w-md px-4">
       <div className="space-y-2 text-center">
-        <h1 className="text-3xl font-bold">Create an account</h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-2xl font-bold">Create an account</h1>
+        <p className="text-muted-foreground text-sm">
           Enter your information to create your account
         </p>
       </div>
@@ -92,9 +92,9 @@ const RegisterForm = () => {
           </div>
         </div>
         
-        <Button type="submit" className="w-full" disabled={isLoading}>
+        <Button type="submit" className="w-full mt-2" disabled={isLoading}>
           {isLoading ? "Creating account..." : "Create account"}
-          {!isLoading && <UserPlus className="ml-2" />}
+          {!isLoading && <UserPlus className="ml-2 h-4 w-4" />}
         </Button>
       </form>
       

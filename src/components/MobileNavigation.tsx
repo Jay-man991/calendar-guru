@@ -8,7 +8,7 @@ const MobileNavigation: React.FC = () => {
   const location = useLocation();
   
   const navItems = [
-    { icon: Home, label: 'Home', path: '/' },
+    { icon: Home, label: 'Home', path: '/dashboard' },
     { icon: Calendar, label: 'Calendar', path: '/calendar' },
     { icon: MessageSquare, label: 'Sources', path: '/sources' },
     { icon: Bell, label: 'Notifications', path: '/notifications' },
@@ -23,7 +23,7 @@ const MobileNavigation: React.FC = () => {
             key={item.path}
             to={item.path}
             className={cn(
-              "flex flex-col items-center py-3 px-3 text-xs",
+              "flex flex-col items-center py-2 px-3 text-xs",
               location.pathname === item.path 
                 ? "text-primary" 
                 : "text-muted-foreground"

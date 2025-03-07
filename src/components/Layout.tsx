@@ -14,11 +14,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <Navigation />
       
       <main className="flex-1 flex flex-col h-screen overflow-hidden">
-        <header className="py-4 px-6 border-b flex items-center justify-between md:hidden">
+        <header className="py-3 px-4 border-b flex items-center justify-between md:hidden">
           <Logo size="sm" />
         </header>
         
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 pb-20 md:pb-6">
+        <div className="flex-1 overflow-y-auto pb-20 md:pb-6 px-4">
           {children}
         </div>
         

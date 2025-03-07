@@ -38,21 +38,21 @@ const CalendarView: React.FC<CalendarViewProps> = ({
 
   return (
     <div className="w-full animate-in-up">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-4">
         <div>
-          <h2 className="text-xl font-semibold">
+          <h2 className="text-lg font-semibold">
             {format(currentDate, 'MMMM yyyy')}
           </h2>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs text-muted-foreground">
             {format(weekDays[0], 'MMM d')} - {format(weekDays[6], 'MMM d')}
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <Button
             variant="outline"
             size="icon"
             onClick={prevWeek}
-            className="btn-animation"
+            className="h-8 w-8"
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
@@ -60,6 +60,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({
             variant="outline"
             size="sm"
             onClick={() => onDateChange(new Date())}
+            className="h-8 text-xs"
           >
             Today
           </Button>
@@ -67,21 +68,21 @@ const CalendarView: React.FC<CalendarViewProps> = ({
             variant="outline"
             size="icon"
             onClick={nextWeek}
-            className="btn-animation"
+            className="h-8 w-8"
           >
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-7 gap-2">
+      <div className="grid grid-cols-7 gap-1">
         {weekDays.map((day, i) => (
           <div key={i} className="flex flex-col">
-            <div className="text-center mb-2">
-              <p className="text-sm font-medium">{format(day, 'EEE')}</p>
+            <div className="text-center mb-1">
+              <p className="text-xs font-medium">{format(day, 'EEE')}</p>
               <div 
                 className={cn(
-                  "w-8 h-8 mx-auto flex items-center justify-center rounded-full text-sm",
+                  "w-6 h-6 mx-auto flex items-center justify-center rounded-full text-xs",
                   isSameDay(day, new Date()) && "bg-primary text-primary-foreground"
                 )}
               >
@@ -89,15 +90,15 @@ const CalendarView: React.FC<CalendarViewProps> = ({
               </div>
             </div>
             
-            <div className="min-h-[180px] border rounded-lg p-2 bg-card/50 space-y-1 overflow-y-auto">
+            <div className="min-h-[120px] border rounded-lg p-1 bg-card/50 space-y-1 overflow-y-auto text-xs">
               {getDayEvents(day).map((event) => (
                 <div
                   key={event.id}
-                  className="px-2 py-1.5 text-xs bg-primary/10 rounded cursor-pointer hover:bg-primary/20 transition-colors"
+                  className="px-1.5 py-1 bg-primary/10 rounded cursor-pointer hover:bg-primary/20 transition-colors"
                   onClick={() => onEventClick(event)}
                 >
-                  <p className="font-medium truncate">{event.title}</p>
-                  <p className="text-muted-foreground">{event.time}</p>
+                  <p className="font-medium truncate text-[10px]">{event.title}</p>
+                  <p className="text-muted-foreground text-[10px]">{event.time}</p>
                 </div>
               ))}
             </div>

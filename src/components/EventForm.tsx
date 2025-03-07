@@ -60,11 +60,16 @@ const EventForm: React.FC<EventFormProps> = ({
 
   return (
     <Sheet open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
-      <SheetContent className="sm:max-w-md overflow-y-auto" onEscapeKeyDown={onClose}>
+      <SheetContent className="w-full p-4 h-[100dvh] overflow-y-auto" onEscapeKeyDown={onClose}>
         <SheetHeader className="pb-4">
-          <SheetTitle>
-            {event?.status === 'pending' ? 'Confirm Event' : 'Edit Event'}
-          </SheetTitle>
+          <div className="flex items-center justify-between">
+            <SheetTitle className="text-xl">
+              {event?.status === 'pending' ? 'Confirm Event' : 'Edit Event'}
+            </SheetTitle>
+            <Button variant="ghost" size="icon" onClick={onClose}>
+              <X className="h-5 w-5" />
+            </Button>
+          </div>
           <SheetDescription>
             Make changes to the event before adding it to your calendar.
           </SheetDescription>
@@ -90,7 +95,7 @@ const EventForm: React.FC<EventFormProps> = ({
                   <Button
                     variant="outline"
                     className={cn(
-                      "justify-start text-left font-normal animate-in-left animation-delay-100",
+                      "justify-start text-left font-normal animate-in-left animation-delay-100 w-full",
                       !date && "text-muted-foreground"
                     )}
                   >
@@ -126,22 +131,24 @@ const EventForm: React.FC<EventFormProps> = ({
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="location">Location (Optional)</Label>
+            <Label htmlFor="location">Location</Label>
             <Input 
               id="location" 
               value={location} 
               onChange={(e) => setLocation(e.target.value)}
               className="animate-in-left animation-delay-150"
+              placeholder="Enter location (optional)"
             />
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="description">Description (Optional)</Label>
+            <Label htmlFor="description">Description</Label>
             <Textarea 
               id="description" 
               value={description} 
               onChange={(e) => setDescription(e.target.value)}
-              className="min-h-24 animate-in-left animation-delay-175"
+              className="min-h-20 animate-in-left animation-delay-175"
+              placeholder="Add details (optional)"
             />
           </div>
           
@@ -159,11 +166,11 @@ const EventForm: React.FC<EventFormProps> = ({
             />
           </div>
         
-          <SheetFooter className="pt-4 animate-in-up animation-delay-300">
-            <Button type="button" variant="outline" onClick={onClose}>
+          <SheetFooter className="pt-4 animate-in-up animation-delay-300 flex-col sm:flex-row gap-2">
+            <Button type="button" variant="outline" onClick={onClose} className="w-full sm:w-auto">
               Cancel
             </Button>
-            <Button type="submit">
+            <Button type="submit" className="w-full sm:w-auto">
               Add to Calendar
             </Button>
           </SheetFooter>
