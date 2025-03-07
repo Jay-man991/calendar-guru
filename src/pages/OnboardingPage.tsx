@@ -1,10 +1,9 @@
-
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import Logo from '../components/Logo';
 import { motion } from 'framer-motion';
 import { Check, ChevronRight, MessageCircle, Mail, Smartphone, Calendar } from 'lucide-react';
+import useAuth from '../hooks/useAuth';
 
 const steps = [
   {
@@ -49,7 +48,7 @@ const OnboardingPage = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(['email']);
   const [selectedCalendar, setSelectedCalendar] = useState('google');
-  const navigate = useNavigate();
+  const { completeOnboarding } = useAuth();
   
   const handlePlatformToggle = (platformId: string) => {
     if (selectedPlatforms.includes(platformId)) {
@@ -63,7 +62,7 @@ const OnboardingPage = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      navigate('/');
+      completeOnboarding();
     }
   };
   

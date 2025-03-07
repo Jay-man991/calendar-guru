@@ -1,3 +1,4 @@
+
 import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,6 +13,7 @@ type AuthContextType = {
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string) => Promise<void>;
   logout: () => void;
+  completeOnboarding: () => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -43,7 +45,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem('isAuthenticated', 'true');
     localStorage.setItem('user', JSON.stringify(mockUser));
     
-    navigate('/dashboard');
+    const hasCompletedOnboarding = localStorage.getItem('hasCompletedOnboarding') === 'true';
+    
+    if (hasCompletedOnboarding) {
+      navigate('/dashboard');
+    } else {
+      navigate('/onboarding');
+    }
   };
 
   const register = async (name: string, email: string, password: string) => {
@@ -57,6 +65,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem('isAuthenticated', 'true');
     localStorage.setItem('user', JSON.stringify(mockUser));
     
+    navigate('/onboarding');
+  };
+
+  const completeOnboarding = () => {
+    localStorage.setItem('hasCompletedOnboarding', 'true');
     navigate('/dashboard');
   };
 
@@ -65,11 +78,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsAuthenticated(false);
     localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('user');
+    // Don't remove the onboarding flag on logout
     navigate('/login');
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, login, register, logout }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      isAuthenticated, 
+      login, 
+      register, 
+      logout,
+      completeOnboarding 
+    }}>
       {children}
     </AuthContext.Provider>
   );

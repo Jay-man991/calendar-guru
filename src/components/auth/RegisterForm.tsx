@@ -1,11 +1,11 @@
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Eye, EyeOff, UserPlus } from "lucide-react";
+import useAuth from '../../hooks/useAuth';
 
 const RegisterForm = () => {
   const [name, setName] = useState('');
@@ -13,22 +13,15 @@ const RegisterForm = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  const { register } = useAuth();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
     try {
-      // Simulating an API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mocked successful registration
-      localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('user', JSON.stringify({ name, email }));
-      
-      toast.success("Registration successful! Welcome to Calendar Guru.");
-      navigate('/dashboard');
+      await register(name, email, password);
+      toast.success("Welcome to Calendar Guru!");
     } catch (error) {
       toast.error("Registration failed. Please try again.");
     } finally {
@@ -37,11 +30,11 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="space-y-6 w-full max-w-md px-4">
+    <div className="space-y-6 w-full max-w-md">
       <div className="space-y-2 text-center">
         <h1 className="text-2xl font-bold">Create an account</h1>
         <p className="text-muted-foreground text-sm">
-          Enter your information to create your account
+          Join Calendar Guru to manage your events effortlessly
         </p>
       </div>
       
@@ -93,17 +86,19 @@ const RegisterForm = () => {
         </div>
         
         <Button type="submit" className="w-full mt-2" disabled={isLoading}>
-          {isLoading ? "Creating account..." : "Create account"}
-          {!isLoading && <UserPlus className="ml-2 h-4 w-4" />}
+          {isLoading ? (
+            <span className="flex items-center">
+              <span className="animate-spin mr-2">●</span>
+              Creating account...
+            </span>
+          ) : (
+            <>
+              Create account
+              <UserPlus className="ml-2 h-4 w-4" />
+            </>
+          )}
         </Button>
       </form>
-      
-      <div className="text-center text-sm">
-        Already have an account?{" "}
-        <a onClick={() => navigate('/login')} className="text-primary hover:underline cursor-pointer">
-          Sign in
-        </a>
-      </div>
     </div>
   );
 };

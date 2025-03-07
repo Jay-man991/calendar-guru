@@ -1,33 +1,26 @@
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Eye, EyeOff, LogIn } from "lucide-react";
+import useAuth from '../../hooks/useAuth';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
     try {
-      // Simulating an API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mocked successful login
-      localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('user', JSON.stringify({ email }));
-      
-      toast.success("Login successful!");
-      navigate('/dashboard');
+      await login(email, password);
+      toast.success("Welcome back to Calendar Guru!");
     } catch (error) {
       toast.error("Login failed. Please check your credentials.");
     } finally {
@@ -85,17 +78,19 @@ const LoginForm = () => {
         </div>
         
         <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? "Signing in..." : "Sign in"}
-          {!isLoading && <LogIn className="ml-2" />}
+          {isLoading ? (
+            <span className="flex items-center">
+              <span className="animate-spin mr-2">●</span>
+              Signing in...
+            </span>
+          ) : (
+            <>
+              Sign in
+              <LogIn className="ml-2 h-4 w-4" />
+            </>
+          )}
         </Button>
       </form>
-      
-      <div className="text-center text-sm">
-        Don't have an account?{" "}
-        <a onClick={() => navigate('/register')} className="text-primary hover:underline cursor-pointer">
-          Create an account
-        </a>
-      </div>
     </div>
   );
 };

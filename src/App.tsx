@@ -22,9 +22,14 @@ const queryClient = new QueryClient();
 // Protected route wrapper
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+  const hasCompletedOnboarding = localStorage.getItem('hasCompletedOnboarding') === 'true';
   
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
+  }
+  
+  if (isAuthenticated && !hasCompletedOnboarding) {
+    return <Navigate to="/onboarding" replace />;
   }
   
   return <>{children}</>;
@@ -32,6 +37,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
 const App = () => {
   const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+  const hasCompletedOnboarding = localStorage.getItem('hasCompletedOnboarding') === 'true';
   
   return (
     <QueryClientProvider client={queryClient}>
@@ -41,12 +47,14 @@ const App = () => {
         <BrowserRouter>
           <AuthProvider>
             <Routes>
-              {/* Root route - redirect based on auth status */}
+              {/* Root route - redirect based on auth status and onboarding */}
               <Route 
                 path="/" 
                 element={
-                  isAuthenticated 
-                    ? <Navigate to="/dashboard" replace /> 
+                  isAuthenticated
+                    ? hasCompletedOnboarding
+                      ? <Navigate to="/dashboard" replace />
+                      : <Navigate to="/onboarding" replace />
                     : <Navigate to="/login" replace />
                 } 
               />
@@ -58,7 +66,14 @@ const App = () => {
               {/* Tutorial and Payment routes */}
               <Route path="/tutorial" element={<Tutorial />} />
               <Route path="/payment" element={<Payment />} />
-              <Route path="/onboarding" element={<OnboardingPage />} />
+              <Route 
+                path="/onboarding" 
+                element={
+                  isAuthenticated 
+                    ? <OnboardingPage /> 
+                    : <Navigate to="/login" replace />
+                } 
+              />
               
               {/* Protected routes */}
               <Route path="/dashboard" element={<ProtectedRoute><Index /></ProtectedRoute>} />
