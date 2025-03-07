@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { EventType } from '../components/EventCard';
 import { toast } from "sonner";
@@ -101,12 +100,11 @@ export const useEvents = () => {
     const eventWithReminder = {
       ...newEvent,
       isReminder: true,
-      reminderTime: '30min'
+      reminderTime: '30min' as '10min' | '30min' | '1hour' | '1day'
     };
     setEvents(prevEvents => [eventWithReminder, ...prevEvents]);
   };
 
-  // Simulate API calls to various services
   const connectToAPI = async (service: string) => {
     return new Promise<boolean>((resolve) => {
       setTimeout(() => {

@@ -26,11 +26,11 @@ const ManualEventDetection: React.FC<ManualEventDetectionProps> = ({ onEventDete
     
     if (detection) {
       const newEvent = createEventFromDetection(detection, source);
-      // Add reminder specific fields
+      // Add reminder specific fields with the correct type
       const reminderEvent = {
         ...newEvent,
         isReminder: true,
-        reminderTime: '30min'
+        reminderTime: '30min' as '10min' | '30min' | '1hour' | '1day'
       };
       onEventDetected(reminderEvent);
       toast.success("Reminder detected!", {
