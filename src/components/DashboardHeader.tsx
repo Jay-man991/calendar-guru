@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { RefreshCw } from 'lucide-react';
+import Logo from './Logo';
 
 interface DashboardHeaderProps {
   showTester: boolean;
@@ -36,21 +37,22 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           </p>
         </div>
         
-        <div className="flex items-center text-sm text-gray-500">
+        <div className="flex items-center text-sm bg-green-100 px-3 py-1 rounded-full shadow-sm">
           <div className="flex items-center mr-2">
             <button 
               onClick={handleRefresh}
-              className="p-1 hover:bg-gray-100 rounded-full mr-2"
+              className="p-1 hover:bg-green-200 rounded-full mr-2 transition-colors"
               disabled={isRefreshing}
+              aria-label="Refresh events"
             >
               <RefreshCw 
                 size={16} 
-                className={isRefreshing ? "animate-spin" : ""} 
+                className={`text-green-600 ${isRefreshing ? "animate-spin" : ""}`} 
               />
             </button>
-            <span>Last sync:</span>
+            <span className="text-green-700">Last sync:</span>
           </div>
-          <span className="font-medium">{lastSyncText}</span>
+          <span className="font-medium text-green-800">{lastSyncText}</span>
         </div>
       </div>
     </header>
