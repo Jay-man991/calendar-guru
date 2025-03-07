@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Eye, EyeOff, UserPlus } from "lucide-react";
 import useAuth from '../../hooks/useAuth';
+import GoogleLoginButton from './GoogleLoginButton';
 
 const RegisterForm = () => {
   const [name, setName] = useState('');
@@ -98,6 +99,17 @@ const RegisterForm = () => {
             </>
           )}
         </Button>
+        
+        <div className="relative my-4">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t border-muted-foreground/30" />
+          </div>
+          <div className="relative flex justify-center text-xs">
+            <span className="bg-background px-2 text-muted-foreground">or</span>
+          </div>
+        </div>
+        
+        <GoogleLoginButton text="Sign up with Google" />
       </form>
     </div>
   );

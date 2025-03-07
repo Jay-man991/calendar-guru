@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 type User = {
   email: string;
   name?: string;
+  picture?: string;
 };
 
 type AuthContextType = {
@@ -12,6 +13,7 @@ type AuthContextType = {
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string) => Promise<void>;
+  googleLogin: () => Promise<void>;
   logout: () => void;
   completeOnboarding: () => void;
 };
@@ -39,6 +41,31 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     await new Promise(resolve => setTimeout(resolve, 1000));
     
     const mockUser = { email };
+    setUser(mockUser);
+    setIsAuthenticated(true);
+    
+    localStorage.setItem('isAuthenticated', 'true');
+    localStorage.setItem('user', JSON.stringify(mockUser));
+    
+    const hasCompletedOnboarding = localStorage.getItem('hasCompletedOnboarding') === 'true';
+    
+    if (hasCompletedOnboarding) {
+      navigate('/dashboard');
+    } else {
+      navigate('/onboarding');
+    }
+  };
+
+  const googleLogin = async () => {
+    // Mocked Google login - in a real app, this would use the Google OAuth API
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    const mockUser = { 
+      email: 'user@gmail.com', 
+      name: 'Google User',
+      picture: 'https://lh3.googleusercontent.com/a/default-user'
+    };
+    
     setUser(mockUser);
     setIsAuthenticated(true);
     
@@ -88,6 +115,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       isAuthenticated, 
       login, 
       register, 
+      googleLogin,
       logout,
       completeOnboarding 
     }}>
