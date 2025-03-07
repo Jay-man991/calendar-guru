@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
+import { Scan } from 'lucide-react';
 
 interface MessageTesterProps {
   onEventDetected: (event: any) => void;
@@ -78,14 +79,25 @@ const MessageTester: React.FC<MessageTesterProps> = ({ onEventDetected }) => {
           className="min-h-32"
         />
         
-        <div className="flex justify-between">
-          <Button onClick={handleTest} className="btn-animation">
-            Test Detection
+        <div className="flex flex-col items-center gap-4">
+          <Button 
+            onClick={handleTest} 
+            className="w-full h-14 text-lg flex justify-center items-center gap-2"
+            size="lg"
+          >
+            <Scan className="h-5 w-5" />
+            Scan for Events
           </Button>
           
-          <Button variant="outline" onClick={() => setMessage('')}>
-            Clear
-          </Button>
+          <div className="flex justify-between w-full">
+            <Button variant="outline" onClick={() => setMessage('')}>
+              Clear
+            </Button>
+            
+            <Button variant="secondary" onClick={handleTest} className="btn-animation">
+              Test Detection
+            </Button>
+          </div>
         </div>
         
         <div className="pt-4">
