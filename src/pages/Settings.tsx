@@ -19,7 +19,8 @@ import {
   Sun, 
   Moon, 
   Laptop,
-  LogOut
+  LogOut,
+  TestTube
 } from 'lucide-react';
 import useAuth from '../hooks/useAuth';
 
@@ -28,6 +29,7 @@ const Settings = () => {
   const [defaultCalendar, setDefaultCalendar] = useState("google");
   const [userConsent, setUserConsent] = useState(true);
   const [theme, setTheme] = useState("system");
+  const [showTester, setShowTester] = useState(false);
   const { logout } = useAuth();
   
   const handleSaveSettings = () => {
@@ -183,6 +185,34 @@ const Settings = () => {
                 <Laptop className="h-6 w-6 mb-1" />
                 <span className="text-xs">System</span>
               </Button>
+            </div>
+          </motion.section>
+          
+          <motion.section variants={item} className="datemate-card">
+            <div className="flex items-start justify-between mb-4">
+              <div className="flex gap-3">
+                <TestTube className="mt-1 h-5 w-5 text-primary" />
+                <div>
+                  <h3 className="font-medium">Developer Settings</h3>
+                  <p className="text-sm text-muted-foreground">Tools for testing and debugging</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="test-interface">Test Interface</Label>
+                <Button 
+                  variant={showTester ? "default" : "outline"} 
+                  onClick={() => setShowTester(!showTester)}
+                  className="flex items-center gap-2"
+                >
+                  {showTester ? "Hide Test Interface" : "Show Test Interface"}
+                </Button>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Enable the test interface to experiment with message detection and event creation.
+              </p>
             </div>
           </motion.section>
           
