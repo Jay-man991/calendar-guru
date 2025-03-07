@@ -35,22 +35,22 @@ const Layout: React.FC<LayoutProps> = ({ children, lastSyncText, onRefresh }) =>
           <Logo size="md" className="text-white" />
           
           {lastSyncText && onRefresh && (
-            <div className="flex items-center text-xs bg-white/10 hover:bg-white/20 px-2.5 py-1.5 rounded-full shadow-sm transition-all">
+            <div className="flex items-center text-[10px] bg-white/10 hover:bg-white/20 px-2 py-1 rounded-full shadow-sm transition-all">
               <Button 
                 onClick={handleRefresh}
-                className="p-1 h-6 w-6 bg-green-500 hover:bg-green-600 rounded-full mr-1.5 transition-colors flex items-center justify-center"
+                className="p-0.5 h-5 w-5 bg-green-500 hover:bg-green-600 rounded-full mr-1 transition-colors flex items-center justify-center"
                 disabled={isRefreshing}
                 aria-label="Refresh events"
                 size="icon"
                 variant="default"
               >
                 <CheckCheck 
-                  size={12} 
+                  size={10} 
                   className={`text-white ${isRefreshing ? "animate-spin" : ""}`} 
                 />
               </Button>
               <div className="flex items-center">
-                <Clock size={10} className="text-white/80 mr-1" />
+                <Clock size={8} className="text-white/80 mr-0.5" />
                 <span className="text-white font-medium">{lastSyncText}</span>
               </div>
             </div>
