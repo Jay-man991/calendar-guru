@@ -24,9 +24,6 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           <span className="hidden sm:inline">Logout</span>
         </Button>
       </div>
-      <p className="text-muted-foreground">
-        We've detected some new events from your messages. Review and add them to your calendar.
-      </p>
       <div className="flex gap-2 mt-4">
         <Button 
           variant={showTester ? "default" : "outline"} 
