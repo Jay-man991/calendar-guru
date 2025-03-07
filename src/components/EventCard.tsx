@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { format } from 'date-fns';
-import { Calendar, Clock, MapPin, UserCheck, Briefcase, Activity } from 'lucide-react';
+import { Calendar, Clock, MapPin, UserCheck, Briefcase, Activity, Bell, Edit2, MessageCircle, Mail, MessageSquare, Smartphone } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { motion } from 'framer-motion';
@@ -15,6 +16,12 @@ export interface EventType {
   source: 'email' | 'whatsapp' | 'messenger' | 'sms';
   status: 'pending' | 'confirmed' | 'rejected';
   confidence?: number;
+  reminderTime?: '10min' | '30min' | '1hour' | '1day';
+  isReminder?: boolean;
+  sourceDetails?: {
+    platform: string;
+    sender?: string;
+  };
 }
 
 interface EventCardProps {
@@ -61,6 +68,22 @@ const EventCard: React.FC<EventCardProps> = ({
     }
   };
 
+  // Get source icon
+  const getSourceIcon = () => {
+    switch (event.source) {
+      case 'whatsapp':
+        return <MessageCircle className="h-4 w-4 text-green-500" />;
+      case 'email':
+        return <Mail className="h-4 w-4 text-blue-500" />;
+      case 'messenger':
+        return <MessageSquare className="h-4 w-4 text-purple-500" />;
+      case 'sms':
+        return <Smartphone className="h-4 w-4 text-orange-500" />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div 
       className={cn(
@@ -68,15 +91,27 @@ const EventCard: React.FC<EventCardProps> = ({
         className
       )}
     >
-      <div className="flex items-center mb-2">
-        {getEventIcon()}
-        <h3 className="text-lg font-semibold ml-3">{event.title}</h3>
+      <div className="flex items-start justify-between mb-2">
+        <div className="flex items-center">
+          {getEventIcon()}
+          <h3 className="text-lg font-semibold ml-3">{event.title}</h3>
+        </div>
+        {event.status === 'confirmed' && (
+          <Button 
+            size="sm" 
+            variant="ghost" 
+            className="h-8 w-8 p-0" 
+            onClick={() => onEdit(event.id)}
+          >
+            <Edit2 className="h-4 w-4" />
+          </Button>
+        )}
       </div>
       
       <div className="ml-1 space-y-2 mb-3">
         <div className="flex items-center text-gray-600">
           <Calendar className="h-4 w-4 mr-2 text-gray-400" />
-          <span>{format(event.date, 'yyyy-MM-dd')}</span>
+          <span>{format(event.date, 'EEE, MMM d, yyyy')}</span>
         </div>
         
         <div className="flex items-center text-gray-600">
@@ -90,12 +125,23 @@ const EventCard: React.FC<EventCardProps> = ({
             <span>{event.location}</span>
           </div>
         )}
+        
+        {event.reminderTime && (
+          <div className="flex items-center text-gray-600">
+            <Bell className="h-4 w-4 mr-2 text-gray-400" />
+            <span>Reminder: {event.reminderTime} before</span>
+          </div>
+        )}
       </div>
       
-      {event.description && (
+      {event.status === 'pending' && event.description && (
         <div className="bg-blue-50 p-4 rounded-lg mb-4 text-gray-600">
-          <p className="text-sm text-gray-500 mb-1">Detected from:</p>
-          <p className="text-gray-700 italic">{event.description}</p>
+          <div className="flex items-center gap-1.5 mb-2">
+            {getSourceIcon()}
+            <span className="text-sm capitalize font-medium">{event.source}</span>
+            <span className="text-xs text-muted-foreground">detected this reminder</span>
+          </div>
+          <p className="text-gray-700 italic text-sm">{event.description}</p>
           
           {event.confidence && (
             <div className="mt-3">
@@ -114,24 +160,26 @@ const EventCard: React.FC<EventCardProps> = ({
         </div>
       )}
       
-      <div className="flex justify-end gap-2">
-        <Button 
-          size="sm" 
-          variant="outline"
-          className="rounded-full bg-red-100 hover:bg-red-200 border-none text-red-500 w-10 h-10 p-0"
-          onClick={() => onReject(event.id)}
-        >
-          <span className="text-xl">✕</span>
-        </Button>
-        
-        <Button 
-          size="sm"
-          className="rounded-full bg-green-100 hover:bg-green-200 border-none text-green-500 w-10 h-10 p-0"
-          onClick={() => onConfirm(event.id)}
-        >
-          <span className="text-xl">✓</span>
-        </Button>
-      </div>
+      {event.status === 'pending' && (
+        <div className="flex justify-end gap-2">
+          <Button 
+            size="sm" 
+            variant="outline"
+            className="rounded-full bg-red-100 hover:bg-red-200 border-none text-red-500 w-10 h-10 p-0"
+            onClick={() => onReject(event.id)}
+          >
+            <span className="text-xl">✕</span>
+          </Button>
+          
+          <Button 
+            size="sm"
+            className="rounded-full bg-green-100 hover:bg-green-200 border-none text-green-500 w-10 h-10 p-0"
+            onClick={() => onConfirm(event.id)}
+          >
+            <span className="text-xl">✓</span>
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

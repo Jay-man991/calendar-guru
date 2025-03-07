@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import EventCard from '../components/EventCard';
 import { Badge } from '@/components/ui/badge';
 import ManualEventDetection from '../components/ManualEventDetection';
+import { Bell } from 'lucide-react';
 
 const Notifications = () => {
   const { 
@@ -21,34 +22,34 @@ const Notifications = () => {
   // Use handleSaveEvent as the onEdit handler
   const handleEdit = (id: string) => {
     // For now, this is a placeholder. We'll implement actual edit functionality later
-    console.log(`Edit event with id: ${id}`);
+    console.log(`Edit reminder with id: ${id}`);
   };
 
   return (
     <Layout>
       <div className="container max-w-4xl mx-auto py-6">
-        <h1 className="text-2xl font-bold mb-6">Notifications</h1>
+        <h1 className="text-2xl font-bold mb-6">Reminders</h1>
         
         <ManualEventDetection onEventDetected={handleNewEventDetected} />
         
         <Tabs defaultValue="pending" className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-4">
             <TabsTrigger value="pending" className="flex gap-2 items-center">
-              Pending
+              New Reminders
               {pendingEvents.length > 0 && (
                 <Badge variant="destructive" className="h-5 min-w-5 flex items-center justify-center rounded-full text-xs">
                   {pendingEvents.length}
                 </Badge>
               )}
             </TabsTrigger>
-            <TabsTrigger value="confirmed">Confirmed</TabsTrigger>
+            <TabsTrigger value="confirmed">Your Reminders</TabsTrigger>
           </TabsList>
           
           <TabsContent value="pending" className="space-y-4">
             {pendingEvents.length === 0 ? (
               <Card>
                 <CardContent className="p-6 text-center text-muted-foreground">
-                  No pending notifications
+                  No pending reminders
                 </CardContent>
               </Card>
             ) : (
@@ -68,7 +69,7 @@ const Notifications = () => {
             {confirmedEvents.length === 0 ? (
               <Card>
                 <CardContent className="p-6 text-center text-muted-foreground">
-                  No confirmed events
+                  No reminders set
                 </CardContent>
               </Card>
             ) : (

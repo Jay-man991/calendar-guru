@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { X, ArrowRight, Calendar as CalendarIcon, MessageCircle, Mail, Smartphone, MessageSquare } from 'lucide-react';
+import { X, ArrowRight, Bell, MessageCircle, Mail, Smartphone, MessageSquare } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { EventType } from './EventCard';
 
@@ -58,8 +58,8 @@ const NotificationBubble: React.FC<NotificationBubbleProps> = ({
     >
       <div className="bg-primary px-4 py-2 flex items-center justify-between">
         <div className="flex items-center gap-2 text-primary-foreground">
-          <CalendarIcon className="h-4 w-4" />
-          <span className="font-medium text-sm">New Event Detected</span>
+          <Bell className="h-4 w-4" />
+          <span className="font-medium text-sm">Reminder Detected</span>
         </div>
         <Button
           variant="ghost"
@@ -78,7 +78,7 @@ const NotificationBubble: React.FC<NotificationBubbleProps> = ({
             {getSourceIcon()}
             <span className="capitalize">{event.source}</span>
           </span>
-          <span className="text-muted-foreground">detected this event in your messages</span>
+          <span className="text-muted-foreground">detected this reminder in your messages</span>
         </div>
         
         <div className="flex items-center justify-end gap-2">
@@ -94,7 +94,7 @@ const NotificationBubble: React.FC<NotificationBubbleProps> = ({
             className="btn-animation"
             onClick={onOpen}
           >
-            View Details
+            Set Reminder
             <ArrowRight className="ml-1 h-4 w-4" />
           </Button>
         </div>

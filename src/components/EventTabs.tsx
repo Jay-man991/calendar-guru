@@ -3,7 +3,7 @@ import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from 'framer-motion';
 import EventCard, { EventType } from './EventCard';
-import { Calendar, ClipboardList } from 'lucide-react';
+import { Bell, CircleSlash } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 
@@ -48,8 +48,8 @@ const EventTabs: React.FC<EventTabsProps> = ({
           value="pending" 
           className="flex-1 flex items-center justify-center gap-1 py-2.5 data-[state=active]:bg-white data-[state=active]:shadow-sm"
         >
-          <ClipboardList className="h-4 w-4" />
-          <span>Review Events</span>
+          <Bell className="h-4 w-4" />
+          <span>Detected Reminders</span>
           {pendingEvents.length > 0 && (
             <span className="ml-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-[10px] text-white">
               {pendingEvents.length}
@@ -60,8 +60,8 @@ const EventTabs: React.FC<EventTabsProps> = ({
           value="upcoming" 
           className="flex-1 flex items-center justify-center gap-1 py-2.5 data-[state=active]:bg-white data-[state=active]:shadow-sm"
         >
-          <Calendar className="h-4 w-4" />
-          <span>Upcoming</span>
+          <Bell className="h-4 w-4" />
+          <span>Your Reminders</span>
         </TabsTrigger>
       </TabsList>
       
@@ -74,15 +74,15 @@ const EventTabs: React.FC<EventTabsProps> = ({
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ repeat: Infinity, duration: 3 }}
                 >
-                  <ClipboardList className="h-8 w-8 text-gray-400" />
+                  <CircleSlash className="h-8 w-8 text-gray-400" />
                 </motion.div>
               </div>
-              <h3 className="text-lg font-medium mb-1">No pending events</h3>
+              <h3 className="text-lg font-medium mb-1">No pending reminders</h3>
               <p className="text-gray-500 max-w-xs mb-4">
-                Any detected events will appear here for your approval.
+                Any detected reminders from your messages will appear here.
               </p>
               <Button variant="outline" size="sm">
-                Manually Add Event
+                Manually Add Reminder
               </Button>
             </CardContent>
           </Card>
@@ -119,15 +119,15 @@ const EventTabs: React.FC<EventTabsProps> = ({
                   animate={{ rotate: 360 }}
                   transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
                 >
-                  <Calendar className="h-8 w-8 text-gray-400" />
+                  <Bell className="h-8 w-8 text-gray-400" />
                 </motion.div>
               </div>
-              <h3 className="text-lg font-medium mb-1">No upcoming events</h3>
+              <h3 className="text-lg font-medium mb-1">No reminders set</h3>
               <p className="text-gray-500 max-w-xs mb-4">
-                Events you add to your calendar will appear here.
+                Reminders you set will appear here.
               </p>
               <Button variant="outline" size="sm">
-                Manually Add Event
+                Create Reminder
               </Button>
             </CardContent>
           </Card>
