@@ -14,8 +14,15 @@ const Notifications = () => {
     confirmedEvents, 
     handleConfirmEvent, 
     handleRejectEvent,
+    handleSaveEvent,
     handleNewEventDetected
   } = useEvents();
+
+  // Use handleSaveEvent as the onEdit handler
+  const handleEdit = (id: string) => {
+    // For now, this is a placeholder. We'll implement actual edit functionality later
+    console.log(`Edit event with id: ${id}`);
+  };
 
   return (
     <Layout>
@@ -51,6 +58,7 @@ const Notifications = () => {
                   event={event}
                   onConfirm={handleConfirmEvent}
                   onReject={handleRejectEvent}
+                  onEdit={handleEdit}
                 />
               ))
             )}
@@ -68,7 +76,9 @@ const Notifications = () => {
                 <EventCard
                   key={event.id}
                   event={event}
-                  showActions={false}
+                  onConfirm={handleConfirmEvent}
+                  onReject={handleRejectEvent}
+                  onEdit={handleEdit}
                 />
               ))
             )}
