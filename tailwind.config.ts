@@ -62,7 +62,16 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+                vibrant: {
+                    purple: '#8B5CF6',
+                    pink: '#D946EF',
+                    blue: '#0EA5E9',
+                    green: '#10B981',
+                    yellow: '#FBBF24',
+                    orange: '#F97316',
+                    red: '#EF4444',
+                }
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -121,7 +130,11 @@ export default {
 				float: {
 					'0%, 100%': { transform: 'translateY(0)' },
 					'50%': { transform: 'translateY(-5px)' }
-				}
+				},
+                rainbow: {
+                    '0%, 100%': { backgroundPosition: '0% 50%' },
+                    '50%': { backgroundPosition: '100% 50%' }
+                }
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -136,8 +149,15 @@ export default {
 				'slide-down': 'slide-down 0.3s ease-out',
 				wiggle: 'wiggle 0.5s ease-in-out',
 				pulse: 'pulse 1.5s ease-in-out infinite',
-				float: 'float 3s ease-in-out infinite'
-			}
+				float: 'float 3s ease-in-out infinite',
+                rainbow: 'rainbow 8s ease-in-out infinite'
+			},
+            backgroundImage: {
+                'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+                'gradient-diagonal': 'linear-gradient(to bottom right, var(--tw-gradient-stops))',
+                'gradient-rainbow': 'linear-gradient(90deg, #ff0080, #ff8c00, #ffed00, #00ff80, #00cfff, #cc00ff)',
+            }
 		}
 	},
 	plugins: [require("tailwindcss-animate")],

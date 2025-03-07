@@ -125,7 +125,7 @@ const ManualEventDetection: React.FC<ManualEventDetectionProps> = ({ onEventDete
         <Button 
           onClick={handleScan}
           size="lg"
-          className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 shadow-md hover:shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98]"
+          className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 shadow-md hover:shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98] animate-pulse"
         >
           <Bell className="h-5 w-5" />
           Scan for Reminders
