@@ -8,33 +8,36 @@ import { v4 as uuidv4 } from 'uuid';
 const initialEvents: EventType[] = [
   {
     id: '1',
-    title: 'Team Meeting with Marketing',
-    date: new Date(2023, 6, 15),
-    time: '14:00',
-    location: 'Conference Room 3',
-    description: 'Quarterly review of marketing campaigns and strategy planning session.',
+    title: 'Team Meeting',
+    date: new Date(2024, 2, 20),
+    time: '10:00 AM',
+    location: 'Conference Room A',
+    description: 'Hey team, let\'s have a meeting on March 20th at 10 AM in Conference Room A',
     source: 'email',
-    status: 'pending'
+    status: 'pending',
+    confidence: 95
   },
   {
     id: '2',
-    title: 'Dinner with Sarah',
-    date: new Date(2023, 6, 18),
-    time: '19:30',
-    location: 'Bella Italia Restaurant',
-    description: 'Catch-up dinner with Sarah. She mentioned wanting to try the new pasta dish.',
+    title: 'Coffee with Sarah',
+    date: new Date(2024, 2, 20),
+    time: '2:30 PM',
+    location: 'Starbucks',
+    description: 'Want to grab coffee at Starbucks on March 20th at 2:30?',
     source: 'whatsapp',
-    status: 'pending'
+    status: 'pending',
+    confidence: 90
   },
   {
     id: '3',
-    title: 'Dentist Appointment',
-    date: new Date(2023, 6, 20),
-    time: '10:15',
-    location: 'Dr. Smith Dental Clinic',
-    description: 'Regular check-up and cleaning.',
+    title: 'Doctor Appointment',
+    date: new Date(2024, 2, 21),
+    time: '9:15 AM',
+    location: 'Dr. Smith Clinic',
+    description: 'Your appointment with Dr. Smith is confirmed for March 21st at 9:15 AM.',
     source: 'sms',
-    status: 'confirmed'
+    status: 'pending',
+    confidence: 88
   }
 ];
 
@@ -79,11 +82,12 @@ export const useEvents = () => {
       id: uuidv4(),
       title: `New Event ${Math.floor(Math.random() * 100)}`,
       date: new Date(currentDate.getTime() + Math.random() * 7 * 24 * 60 * 60 * 1000), // Random date within the next week
-      time: `${Math.floor(Math.random() * 12 + 9)}:${Math.random() > 0.5 ? '30' : '00'}`,
+      time: `${Math.floor(Math.random() * 12 + 9)}:${Math.random() > 0.5 ? '30' : '00'} ${Math.random() > 0.5 ? 'AM' : 'PM'}`,
       location: 'Virtual Meeting',
       description: 'This event was added when you refreshed the events list.',
       source: ['email', 'whatsapp', 'sms'][Math.floor(Math.random() * 3)] as 'email' | 'whatsapp' | 'sms',
-      status: 'pending'
+      status: 'pending',
+      confidence: Math.floor(Math.random() * 20) + 80 // Random confidence between 80-99
     };
     
     setEvents(prevEvents => [randomEvent, ...prevEvents]);

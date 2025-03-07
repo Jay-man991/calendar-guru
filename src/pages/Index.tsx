@@ -92,8 +92,6 @@ const Index = () => {
     // If scrolled to the top and user is still trying to scroll up
     if (target.scrollTop === 0 && !isRefreshing) {
       // We can detect mousewheel events here if needed
-      // For now, we'll just show a toast suggesting the pull-to-refresh on mobile
-      // or could add keyboard shortcut hint for desktop
     }
   };
 
@@ -106,7 +104,6 @@ const Index = () => {
       await new Promise(resolve => setTimeout(resolve, 1500));
       
       // Refresh logic here - you would typically call an API
-      // For now, we'll just show a success toast
       toast.success("Events refreshed successfully");
       
     } catch (error) {
@@ -130,7 +127,7 @@ const Index = () => {
       
       <div 
         ref={contentRef}
-        className="flex-1 overflow-y-auto p-4 sm:p-6 pb-20 md:pb-6"
+        className="pb-20 md:pb-6"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -153,7 +150,7 @@ const Index = () => {
               repeat: isRefreshing ? Infinity : 0,
               ease: "linear"
             }}
-            className="flex items-center gap-2 text-muted-foreground"
+            className="flex items-center gap-2 text-gray-500"
           >
             <RefreshCw size={20} />
             <span className="text-sm font-medium">

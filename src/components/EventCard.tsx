@@ -1,9 +1,9 @@
-
 import React from 'react';
 import { format } from 'date-fns';
-import { Calendar, Clock, MapPin, ArrowRight, Check, X, Edit } from 'lucide-react';
+import { Calendar, Clock, MapPin, UserCheck, Briefcase, Activity } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { motion } from 'framer-motion';
 
 export interface EventType {
   id: string;
@@ -14,6 +14,7 @@ export interface EventType {
   description?: string;
   source: 'email' | 'whatsapp' | 'messenger' | 'sms';
   status: 'pending' | 'confirmed' | 'rejected';
+  confidence?: number;
 }
 
 interface EventCardProps {
@@ -24,13 +25,6 @@ interface EventCardProps {
   className?: string;
 }
 
-const sourceIcons = {
-  email: '✉️',
-  whatsapp: '💬',
-  messenger: '💌',
-  sms: '📱',
-};
-
 const EventCard: React.FC<EventCardProps> = ({ 
   event, 
   onConfirm, 
@@ -38,106 +32,106 @@ const EventCard: React.FC<EventCardProps> = ({
   onReject,
   className 
 }) => {
-  // Function to handle clicking the Details button with event data
-  const handleDetailClick = () => {
-    onEdit(event.id);
+  // Get icon based on event title
+  const getEventIcon = () => {
+    if (event.title.toLowerCase().includes('meeting')) {
+      return (
+        <div className="bg-blue-100 p-4 rounded-full">
+          <Briefcase className="h-6 w-6 text-blue-500" />
+        </div>
+      );
+    } else if (event.title.toLowerCase().includes('coffee') || event.title.toLowerCase().includes('dinner')) {
+      return (
+        <div className="bg-green-100 p-4 rounded-full">
+          <UserCheck className="h-6 w-6 text-green-500" />
+        </div>
+      );
+    } else if (event.title.toLowerCase().includes('doctor') || event.title.toLowerCase().includes('dentist')) {
+      return (
+        <div className="bg-red-100 p-4 rounded-full">
+          <Activity className="h-6 w-6 text-red-500" />
+        </div>
+      );
+    } else {
+      return (
+        <div className="bg-purple-100 p-4 rounded-full">
+          <Calendar className="h-6 w-6 text-purple-500" />
+        </div>
+      );
+    }
   };
 
   return (
     <div 
       className={cn(
-        "datemate-card animate-in-up transition-all", 
-        event.status === 'pending' ? 'pending-event' : 'confirmed-event',
+        "bg-white rounded-xl border border-gray-200 shadow-sm p-4 mb-4",
         className
       )}
     >
-      <div className="absolute top-3 right-3 text-sm font-medium text-muted-foreground">
-        {sourceIcons[event.source]}
+      <div className="flex items-center mb-2">
+        {getEventIcon()}
+        <h3 className="text-lg font-semibold ml-3">{event.title}</h3>
       </div>
       
-      <h3 className="text-lg font-semibold mb-1">{event.title}</h3>
-      
-      <div className="flex flex-col gap-2 mb-3 text-sm">
-        <div className="flex items-center gap-2">
-          <Calendar className="h-4 w-4 text-primary" />
-          <span>{format(event.date, 'EEEE, MMMM d, yyyy')}</span>
+      <div className="ml-1 space-y-2 mb-3">
+        <div className="flex items-center text-gray-600">
+          <Calendar className="h-4 w-4 mr-2 text-gray-400" />
+          <span>{format(event.date, 'yyyy-MM-dd')}</span>
         </div>
         
-        <div className="flex items-center gap-2">
-          <Clock className="h-4 w-4 text-primary" />
+        <div className="flex items-center text-gray-600">
+          <Clock className="h-4 w-4 mr-2 text-gray-400" />
           <span>{event.time}</span>
         </div>
         
         {event.location && (
-          <div className="flex items-center gap-2">
-            <MapPin className="h-4 w-4 text-primary" />
+          <div className="flex items-center text-gray-600">
+            <MapPin className="h-4 w-4 mr-2 text-gray-400" />
             <span>{event.location}</span>
           </div>
         )}
       </div>
       
       {event.description && (
-        <div className="message-bubble relative pl-3 pr-4 py-2 mb-4 bg-muted/70 rounded-lg rounded-tl-none border-l-2 border-primary/50 text-sm text-muted-foreground">
-          <div className="absolute -left-2 top-0 w-3 h-3 bg-muted/70 transform rotate-45"></div>
-          {event.description}
+        <div className="bg-blue-50 p-4 rounded-lg mb-4 text-gray-600">
+          <p className="text-sm text-gray-500 mb-1">Detected from:</p>
+          <p className="text-gray-700 italic">{event.description}</p>
+          
+          {event.confidence && (
+            <div className="mt-3">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-500">Confidence:</span>
+                <span className="text-blue-500 font-semibold">{event.confidence}%</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
+                <div 
+                  className="bg-blue-500 h-2 rounded-full" 
+                  style={{ width: `${event.confidence}%` }}
+                ></div>
+              </div>
+            </div>
+          )}
         </div>
       )}
       
-      {event.status === 'pending' && (
-        <div className="flex items-center justify-between mt-3">
-          <div className="flex gap-2">
-            <Button 
-              size="icon" 
-              className="event-action-btn bg-green-100 hover:bg-green-200 text-green-700"
-              onClick={() => onConfirm(event.id)}
-            >
-              <Check className="h-5 w-5" />
-            </Button>
-            <Button 
-              size="icon" 
-              className="event-action-btn bg-blue-100 hover:bg-blue-200 text-blue-700"
-              onClick={() => onEdit(event.id)}
-            >
-              <Edit className="h-5 w-5" />
-            </Button>
-            <Button 
-              size="icon" 
-              className="event-action-btn bg-red-100 hover:bg-red-200 text-red-700"
-              onClick={() => onReject(event.id)}
-            >
-              <X className="h-5 w-5" />
-            </Button>
-          </div>
-          
-          <Button 
-            variant="ghost" 
-            className="text-sm btn-animation group"
-            onClick={handleDetailClick}
-            aria-label="View event details"
-          >
-            <span>Details</span>
-            <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-          </Button>
-        </div>
-      )}
-      
-      {event.status === 'confirmed' && (
-        <div className="flex items-center justify-between mt-3">
-          <div className="rounded-full px-3 py-1 text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
-            Added to Calendar
-          </div>
-          
-          <Button 
-            variant="ghost" 
-            className="text-sm btn-animation group"
-            onClick={handleDetailClick}
-            aria-label="View event details"
-          >
-            <span>Details</span>
-            <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-          </Button>
-        </div>
-      )}
+      <div className="flex justify-end gap-2">
+        <Button 
+          size="sm" 
+          variant="outline"
+          className="rounded-full bg-red-100 hover:bg-red-200 border-none text-red-500 w-10 h-10 p-0"
+          onClick={() => onReject(event.id)}
+        >
+          <span className="text-xl">✕</span>
+        </Button>
+        
+        <Button 
+          size="sm"
+          className="rounded-full bg-green-100 hover:bg-green-200 border-none text-green-500 w-10 h-10 p-0"
+          onClick={() => onConfirm(event.id)}
+        >
+          <span className="text-xl">✓</span>
+        </Button>
+      </div>
     </div>
   );
 };
