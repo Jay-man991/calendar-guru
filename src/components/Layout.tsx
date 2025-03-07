@@ -51,7 +51,12 @@ const Layout: React.FC<LayoutProps> = ({ children, lastSyncText, onRefresh }) =>
               </Button>
               <div className="flex items-center">
                 <Clock size={8} className="text-white/80 mr-0.5" />
-                <span className="text-white font-medium">{lastSyncText}</span>
+                <span className="text-white font-medium">
+                  {lastSyncText.includes('minutes') || lastSyncText.includes('hours') || lastSyncText.includes('days') ? 
+                    `Last synced ${lastSyncText}` : 
+                    lastSyncText
+                  }
+                </span>
               </div>
             </div>
           )}

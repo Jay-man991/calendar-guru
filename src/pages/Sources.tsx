@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import { Mail, MessageSquare, MessageCircle, Smartphone, ExternalLink } from 'lucide-react';
+import { Mail, MessageSquare, MessageCircle, Smartphone, ExternalLink, CheckCheck, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface SourceType {
@@ -15,6 +15,7 @@ interface SourceType {
   color: string;
   connected: boolean;
   description: string;
+  lastSynced?: string;
 }
 
 const initialSources: SourceType[] = [
@@ -24,7 +25,8 @@ const initialSources: SourceType[] = [
     icon: Mail,
     color: 'text-blue-500',
     connected: true,
-    description: 'Scan your emails for event details and add them to your calendar'
+    description: 'Scan your emails for event details and add them to your calendar',
+    lastSynced: '2 minutes ago'
   },
   {
     id: 'whatsapp',
@@ -48,18 +50,24 @@ const initialSources: SourceType[] = [
     icon: Smartphone,
     color: 'text-orange-500',
     connected: true,
-    description: 'Detect events from your text messages'
+    description: 'Detect events from your text messages',
+    lastSynced: '5 hours ago'
   }
 ];
 
 const Sources = () => {
   const [sources, setSources] = useState<SourceType[]>(initialSources);
+  const [refreshingSource, setRefreshingSource] = useState<string | null>(null);
   
   const toggleSourceConnection = (id: string) => {
     setSources(
       sources.map(source => 
         source.id === id 
-          ? { ...source, connected: !source.connected } 
+          ? { 
+              ...source, 
+              connected: !source.connected,
+              lastSynced: !source.connected ? 'just now' : undefined 
+            } 
           : source
       )
     );
@@ -72,6 +80,28 @@ const Sources = () => {
         toast.success(`Connected to ${source.name}`);
       }
     }
+  };
+
+  const refreshSource = async (id: string) => {
+    setRefreshingSource(id);
+    
+    // Simulate a refresh
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    setSources(
+      sources.map(source => 
+        source.id === id 
+          ? { ...source, lastSynced: 'just now' } 
+          : source
+      )
+    );
+    
+    const source = sources.find(s => s.id === id);
+    if (source) {
+      toast.success(`Refreshed ${source.name}`);
+    }
+    
+    setRefreshingSource(null);
   };
   
   const container = {
@@ -88,6 +118,57 @@ const Sources = () => {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0 }
   };
+
+  const renderSourceItem = (source: SourceType) => (
+    <motion.div 
+      key={source.id}
+      variants={item}
+      className="datemate-card flex items-center justify-between"
+    >
+      <div className="flex items-center">
+        <div className={`p-3 rounded-full bg-opacity-10 mr-4 ${source.color.replace('text-', 'bg-')}`}>
+          <source.icon className={`h-5 w-5 ${source.color}`} />
+        </div>
+        <div>
+          <h3 className="font-medium">{source.name}</h3>
+          <p className="text-sm text-muted-foreground">{source.description}</p>
+          
+          {source.connected && source.lastSynced && (
+            <div className="flex items-center text-[10px] bg-gray-100 px-2 py-0.5 rounded-full mt-1 w-fit">
+              {refreshingSource === source.id ? (
+                <div className="flex items-center">
+                  <CheckCheck size={8} className="text-green-500 animate-spin mr-0.5" />
+                  <span className="text-gray-600 font-medium">Syncing...</span>
+                </div>
+              ) : (
+                <div className="flex items-center">
+                  <Button
+                    onClick={() => refreshSource(source.id)}
+                    className="p-0.5 h-4 w-4 bg-green-500 hover:bg-green-600 rounded-full mr-1 transition-colors flex items-center justify-center"
+                    size="icon"
+                    variant="default"
+                  >
+                    <CheckCheck size={8} className="text-white" />
+                  </Button>
+                  <Clock size={7} className="text-gray-500 mr-0.5" />
+                  <span className="text-gray-600 font-medium">
+                    {source.lastSynced.includes('minutes') || source.lastSynced.includes('hours') || source.lastSynced.includes('days') ?
+                      `Last synced ${source.lastSynced}` :
+                      source.lastSynced
+                    }
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+      <Switch
+        checked={source.connected}
+        onCheckedChange={() => toggleSourceConnection(source.id)}
+      />
+    </motion.div>
+  );
 
   return (
     <Layout>
@@ -112,27 +193,7 @@ const Sources = () => {
               initial="hidden"
               animate="show"
             >
-              {sources.map(source => (
-                <motion.div 
-                  key={source.id}
-                  variants={item}
-                  className="datemate-card flex items-center justify-between"
-                >
-                  <div className="flex items-center">
-                    <div className={`p-3 rounded-full bg-opacity-10 mr-4 ${source.color.replace('text-', 'bg-')}`}>
-                      <source.icon className={`h-5 w-5 ${source.color}`} />
-                    </div>
-                    <div>
-                      <h3 className="font-medium">{source.name}</h3>
-                      <p className="text-sm text-muted-foreground">{source.description}</p>
-                    </div>
-                  </div>
-                  <Switch
-                    checked={source.connected}
-                    onCheckedChange={() => toggleSourceConnection(source.id)}
-                  />
-                </motion.div>
-              ))}
+              {sources.map(renderSourceItem)}
             </motion.div>
             
             <div className="pt-6">
@@ -150,27 +211,7 @@ const Sources = () => {
               initial="hidden"
               animate="show"
             >
-              {sources.filter(s => s.connected).map(source => (
-                <motion.div 
-                  key={source.id}
-                  variants={item}
-                  className="datemate-card flex items-center justify-between"
-                >
-                  <div className="flex items-center">
-                    <div className={`p-3 rounded-full bg-opacity-10 mr-4 ${source.color.replace('text-', 'bg-')}`}>
-                      <source.icon className={`h-5 w-5 ${source.color}`} />
-                    </div>
-                    <div>
-                      <h3 className="font-medium">{source.name}</h3>
-                      <p className="text-sm text-muted-foreground">{source.description}</p>
-                    </div>
-                  </div>
-                  <Switch
-                    checked={source.connected}
-                    onCheckedChange={() => toggleSourceConnection(source.id)}
-                  />
-                </motion.div>
-              ))}
+              {sources.filter(s => s.connected).map(renderSourceItem)}
             </motion.div>
             
             {sources.filter(s => s.connected).length === 0 && (
