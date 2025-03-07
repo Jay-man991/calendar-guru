@@ -1,4 +1,3 @@
-
 import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -43,6 +42,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     
     localStorage.setItem('isAuthenticated', 'true');
     localStorage.setItem('user', JSON.stringify(mockUser));
+    
+    navigate('/dashboard');
   };
 
   const register = async (name: string, email: string, password: string) => {
@@ -55,6 +56,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     
     localStorage.setItem('isAuthenticated', 'true');
     localStorage.setItem('user', JSON.stringify(mockUser));
+    
+    navigate('/dashboard');
   };
 
   const logout = () => {

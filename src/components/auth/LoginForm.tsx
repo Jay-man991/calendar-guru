@@ -27,7 +27,7 @@ const LoginForm = () => {
       localStorage.setItem('user', JSON.stringify({ email }));
       
       toast.success("Login successful!");
-      navigate('/');
+      navigate('/dashboard');
     } catch (error) {
       toast.error("Login failed. Please check your credentials.");
     } finally {
