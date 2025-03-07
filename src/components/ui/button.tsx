@@ -23,6 +23,9 @@ const buttonVariants = cva(
         success: "bg-green-500 text-white hover:bg-green-600",
         warning: "bg-yellow-500 text-white hover:bg-yellow-600",
         info: "bg-blue-500 text-white hover:bg-blue-600",
+        rainbow: "bg-gradient-rainbow text-white hover:scale-105 transition-transform animate-rainbow bg-size-200 shadow-lg",
+        vibrant: "bg-vibrant-purple text-white hover:bg-vibrant-pink transition-colors",
+        connect: "bg-gradient-to-r from-vibrant-blue to-vibrant-purple text-white hover:from-vibrant-purple hover:to-vibrant-pink shadow-md hover:shadow-lg transition-all",
       },
       size: {
         default: "h-10 px-4 py-2",
