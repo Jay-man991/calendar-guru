@@ -122,12 +122,13 @@ const Index = () => {
   };
 
   return (
-    <Layout>
+    <Layout 
+      lastSyncText={getLastSyncText()}
+      onRefresh={refreshEvents}
+    >
       <DashboardHeader 
         showTester={showTester} 
         setShowTester={setShowTester}
-        lastSyncText={getLastSyncText()}
-        onRefresh={refreshEvents}
       />
 
       <TesterSection 
