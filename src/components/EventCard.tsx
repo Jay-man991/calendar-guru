@@ -38,6 +38,11 @@ const EventCard: React.FC<EventCardProps> = ({
   onReject,
   className 
 }) => {
+  // Function to handle clicking the Details button with event data
+  const handleDetailClick = () => {
+    onEdit(event.id);
+  };
+
   return (
     <div 
       className={cn(
@@ -106,20 +111,31 @@ const EventCard: React.FC<EventCardProps> = ({
           
           <Button 
             variant="ghost" 
-            className="text-sm btn-animation"
-            onClick={() => onEdit(event.id)}
+            className="text-sm btn-animation group"
+            onClick={handleDetailClick}
+            aria-label="View event details"
           >
             <span>Details</span>
-            <ArrowRight className="ml-1 h-4 w-4" />
+            <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </Button>
         </div>
       )}
       
       {event.status === 'confirmed' && (
-        <div className="flex items-center justify-end mt-3">
+        <div className="flex items-center justify-between mt-3">
           <div className="rounded-full px-3 py-1 text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
             Added to Calendar
           </div>
+          
+          <Button 
+            variant="ghost" 
+            className="text-sm btn-animation group"
+            onClick={handleDetailClick}
+            aria-label="View event details"
+          >
+            <span>Details</span>
+            <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+          </Button>
         </div>
       )}
     </div>
