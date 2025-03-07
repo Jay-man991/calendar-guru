@@ -5,7 +5,7 @@ import { parseMessage, createEventFromDetection } from '../utils/messageParser';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
-import { Bell, MessageCircle, Mail, Smartphone, MessageSquare } from 'lucide-react';
+import { Bell, MessageCircle, Mail, Smartphone, MessageSquare, Sparkles } from 'lucide-react';
 import { EventType } from './EventCard';
 
 interface ManualEventDetectionProps {
@@ -59,11 +59,28 @@ const ManualEventDetection: React.FC<ManualEventDetectionProps> = ({ onEventDete
     }
   };
 
+  const getSourceColor = () => {
+    switch (source) {
+      case 'whatsapp':
+        return 'from-green-50 to-emerald-50 dark:from-green-950/40 dark:to-emerald-950/40 border-green-200';
+      case 'email':
+        return 'from-blue-50 to-indigo-50 dark:from-blue-950/40 dark:to-indigo-950/40 border-blue-200';
+      case 'messenger':
+        return 'from-purple-50 to-violet-50 dark:from-purple-950/40 dark:to-violet-950/40 border-purple-200';
+      case 'sms':
+        return 'from-orange-50 to-amber-50 dark:from-orange-950/40 dark:to-amber-950/40 border-orange-200';
+      default:
+        return 'from-gray-50 to-gray-100 dark:from-gray-900/40 dark:to-gray-800/40';
+    }
+  };
+
   return (
-    <div className="bg-background border rounded-lg p-5 mb-6">
+    <div className={`bg-gradient-to-r ${getSourceColor()} border rounded-lg p-5 mb-6 shadow-sm transition-all duration-300`}>
       <h2 className="text-lg font-medium mb-4 flex items-center gap-2">
-        <Bell className="h-5 w-5 text-blue-500" />
-        Scan Message for Reminders
+        <Sparkles className="h-5 w-5 text-purple-500" />
+        <span className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+          Scan Message for Reminders
+        </span>
       </h2>
       
       <div className="space-y-4">
@@ -73,15 +90,27 @@ const ManualEventDetection: React.FC<ManualEventDetectionProps> = ({ onEventDete
             value={source} 
             onValueChange={(value) => setSource(value as any)}
           >
-            <SelectTrigger className="w-40 flex items-center gap-2">
+            <SelectTrigger className="w-40 flex items-center gap-2 border-none bg-white/70 backdrop-blur-sm shadow-sm">
               {getSourceIcon()}
               <SelectValue placeholder="Select source" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="whatsapp">WhatsApp</SelectItem>
-              <SelectItem value="email">Email</SelectItem>
-              <SelectItem value="messenger">Messenger</SelectItem>
-              <SelectItem value="sms">SMS</SelectItem>
+              <SelectItem value="whatsapp" className="flex items-center gap-2">
+                <MessageCircle className="h-4 w-4 text-green-500" />
+                <span>WhatsApp</span>
+              </SelectItem>
+              <SelectItem value="email" className="flex items-center gap-2">
+                <Mail className="h-4 w-4 text-blue-500" />
+                <span>Email</span>
+              </SelectItem>
+              <SelectItem value="messenger" className="flex items-center gap-2">
+                <MessageSquare className="h-4 w-4 text-purple-500" />
+                <span>Messenger</span>
+              </SelectItem>
+              <SelectItem value="sms" className="flex items-center gap-2">
+                <Smartphone className="h-4 w-4 text-orange-500" />
+                <span>SMS</span>
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -90,13 +119,13 @@ const ManualEventDetection: React.FC<ManualEventDetectionProps> = ({ onEventDete
           placeholder="Paste your message here to scan for reminders and event details..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          className="min-h-32"
+          className="min-h-32 bg-white/70 backdrop-blur-sm border-none shadow-sm focus-visible:ring-offset-1"
         />
         
         <Button 
           onClick={handleScan}
           size="lg"
-          className="w-full flex items-center justify-center gap-2"
+          className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 shadow-md hover:shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98]"
         >
           <Bell className="h-5 w-5" />
           Scan for Reminders
