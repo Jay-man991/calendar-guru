@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import { Switch } from "@/components/ui/switch";
@@ -19,14 +18,17 @@ import {
   Shield, 
   Sun, 
   Moon, 
-  Laptop
+  Laptop,
+  LogOut
 } from 'lucide-react';
+import useAuth from '../hooks/useAuth';
 
 const Settings = () => {
   const [syncCalendar, setSyncCalendar] = useState(true);
   const [defaultCalendar, setDefaultCalendar] = useState("google");
   const [userConsent, setUserConsent] = useState(true);
   const [theme, setTheme] = useState("system");
+  const { logout } = useAuth();
   
   const handleSaveSettings = () => {
     toast.success("Settings saved successfully!");
@@ -50,11 +52,17 @@ const Settings = () => {
   return (
     <Layout>
       <div className="max-w-3xl mx-auto">
-        <header className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Settings</h1>
-          <p className="text-muted-foreground">
-            Customize your DateMate experience
-          </p>
+        <header className="mb-8 flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">Settings</h1>
+            <p className="text-muted-foreground">
+              Customize your DateMate experience
+            </p>
+          </div>
+          <Button variant="ghost" size="sm" onClick={logout} className="flex items-center gap-1">
+            <LogOut className="h-4 w-4" />
+            <span className="hidden sm:inline">Logout</span>
+          </Button>
         </header>
         
         <motion.div 
