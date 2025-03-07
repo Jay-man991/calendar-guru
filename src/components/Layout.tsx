@@ -32,7 +32,7 @@ const Layout: React.FC<LayoutProps> = ({ children, lastSyncText, onRefresh }) =>
       <Navigation />
       
       <main className="flex-1 flex flex-col h-screen overflow-hidden">
-        <header className="py-4 px-4 bg-white border-b shadow-sm flex items-center justify-between">
+        <header className="py-3 px-4 bg-white border-b shadow-sm flex items-center justify-between">
           <Logo size="md" className="text-blue-500" />
           
           {lastSyncText && onRefresh && (
@@ -67,7 +67,7 @@ const Layout: React.FC<LayoutProps> = ({ children, lastSyncText, onRefresh }) =>
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
-          className="flex-1 overflow-y-auto pb-20 md:pb-6 px-4 sm:px-6 md:px-8 pt-6"
+          className="flex-1 overflow-y-auto pb-20 md:pb-6 px-4 sm:px-6 md:px-8 pt-4"
         >
           {children}
         </motion.div>
