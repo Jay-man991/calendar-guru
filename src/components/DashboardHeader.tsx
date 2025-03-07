@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { RefreshCw } from 'lucide-react';
+import { RefreshCw, Clock } from 'lucide-react';
 import Logo from './Logo';
 
 interface DashboardHeaderProps {
@@ -34,22 +34,22 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           {/* The "Accept or decline detected events" paragraph has been removed */}
         </div>
         
-        <div className="flex items-center text-sm bg-green-100 px-3 py-1 rounded-full shadow-sm">
-          <div className="flex items-center mr-2">
-            <button 
-              onClick={handleRefresh}
-              className="p-1 hover:bg-green-200 rounded-full mr-2 transition-colors"
-              disabled={isRefreshing}
-              aria-label="Refresh events"
-            >
-              <RefreshCw 
-                size={16} 
-                className={`text-green-600 ${isRefreshing ? "animate-spin" : ""}`} 
-              />
-            </button>
-            <span className="text-green-700">Last sync:</span>
+        <div className="flex items-center text-sm bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-full shadow-sm transition-all">
+          <button 
+            onClick={handleRefresh}
+            className="p-1.5 bg-blue-100 hover:bg-blue-200 rounded-full mr-2 transition-colors group"
+            disabled={isRefreshing}
+            aria-label="Refresh events"
+          >
+            <RefreshCw 
+              size={16} 
+              className={`text-blue-600 group-hover:text-blue-700 ${isRefreshing ? "animate-spin" : ""}`} 
+            />
+          </button>
+          <div className="flex items-center">
+            <Clock size={14} className="text-blue-500 mr-1.5" />
+            <span className="text-blue-700 font-medium">{lastSyncText}</span>
           </div>
-          <span className="font-medium text-green-800">{lastSyncText}</span>
         </div>
       </div>
     </header>
