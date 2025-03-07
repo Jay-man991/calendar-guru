@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Check, X } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -13,6 +13,7 @@ type PlanFeature = {
 type PricingPlan = {
   name: string;
   price: string;
+  yearlyPrice?: string;
   description: string;
   buttonText: string;
   popular?: boolean;
@@ -21,6 +22,7 @@ type PricingPlan = {
 
 const PricingPlans = () => {
   const navigate = useNavigate();
+  const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
   
   const plans: PricingPlan[] = [
     {
@@ -29,7 +31,8 @@ const PricingPlans = () => {
       description: "Basic plan for casual users",
       buttonText: "Get Started",
       features: [
-        { name: "5 events per month", included: true },
+        { name: "Unlimited events", included: true },
+        { name: "Single source integration", included: true },
         { name: "Basic event detection", included: true },
         { name: "Calendar sync", included: true },
         { name: "Email notifications", included: false },
@@ -40,12 +43,14 @@ const PricingPlans = () => {
     },
     {
       name: "Pro",
-      price: "$9.99",
+      price: "$4.99",
+      yearlyPrice: "$40",
       description: "Best for regular users",
       buttonText: "Subscribe",
       popular: true,
       features: [
         { name: "Unlimited events", included: true },
+        { name: "Multiple source integrations", included: true },
         { name: "Advanced event detection", included: true },
         { name: "Calendar sync", included: true },
         { name: "Email notifications", included: true },
@@ -57,10 +62,12 @@ const PricingPlans = () => {
     {
       name: "Enterprise",
       price: "$29.99",
+      yearlyPrice: "$299",
       description: "For power users and business",
       buttonText: "Contact Sales",
       features: [
         { name: "Unlimited events", included: true },
+        { name: "Unlimited source integrations", included: true },
         { name: "Advanced event detection", included: true },
         { name: "Calendar sync", included: true },
         { name: "Email notifications", included: true },
@@ -84,6 +91,31 @@ const PricingPlans = () => {
         <p className="text-muted-foreground max-w-2xl mx-auto">
           Select the best plan that fits your needs. All plans include our core features to help you manage your events effectively.
         </p>
+        
+        <div className="flex items-center justify-center mt-6">
+          <div className="bg-muted p-1 rounded-lg inline-flex">
+            <button
+              onClick={() => setBillingCycle('monthly')}
+              className={`px-4 py-2 text-sm rounded-md transition-colors ${
+                billingCycle === 'monthly' 
+                  ? 'bg-background shadow-sm' 
+                  : 'text-muted-foreground hover:bg-muted/80'
+              }`}
+            >
+              Monthly
+            </button>
+            <button
+              onClick={() => setBillingCycle('yearly')}
+              className={`px-4 py-2 text-sm rounded-md transition-colors ${
+                billingCycle === 'yearly' 
+                  ? 'bg-background shadow-sm' 
+                  : 'text-muted-foreground hover:bg-muted/80'
+              }`}
+            >
+              Yearly (Save 20%)
+            </button>
+          </div>
+        </div>
       </div>
       
       <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto px-4">
@@ -103,8 +135,14 @@ const PricingPlans = () => {
             <div className="p-6">
               <h3 className="text-lg font-bold">{plan.name}</h3>
               <div className="mt-2 flex items-baseline gap-1">
-                <span className="text-3xl font-bold">{plan.price}</span>
-                {plan.name !== "Free" && <span className="text-muted-foreground">/month</span>}
+                <span className="text-3xl font-bold">
+                  {billingCycle === 'yearly' && plan.yearlyPrice ? plan.yearlyPrice : plan.price}
+                </span>
+                {plan.name !== "Free" && (
+                  <span className="text-muted-foreground">
+                    /{billingCycle === 'yearly' ? 'year' : 'month'}
+                  </span>
+                )}
               </div>
               <p className="mt-2 text-sm text-muted-foreground">{plan.description}</p>
               
