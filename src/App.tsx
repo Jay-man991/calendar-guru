@@ -15,7 +15,6 @@ import Register from "./pages/Register";
 import Payment from "./pages/Payment";
 import Tutorial from "./pages/Tutorial";
 import NotFound from "./pages/NotFound";
-import ConnectedApps from "./pages/ConnectedApps";
 
 const queryClient = new QueryClient();
 
@@ -80,7 +79,6 @@ const App = () => {
               <Route path="/sources" element={<ProtectedRoute><Sources /></ProtectedRoute>} />
               <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
               <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
-              <Route path="/connected-apps" element={<ProtectedRoute><ConnectedApps /></ProtectedRoute>} />
               
               {/* 404 route */}
               <Route path="*" element={<NotFound />} />

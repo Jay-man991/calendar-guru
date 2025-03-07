@@ -1,84 +1,36 @@
 
-import { useState, useEffect } from 'react';
-import { useLocation, NavLink } from 'react-router-dom';
-import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
-import { 
-  Calendar, 
-  MessagesSquare, 
-  Bell, 
-  Settings,
-  Network
-} from 'lucide-react';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { Settings, Bell, MessageSquare, Home } from 'lucide-react';
+import { cn } from "@/lib/utils";
 
-const MobileNavigation = () => {
+const MobileNavigation: React.FC = () => {
   const location = useLocation();
-  const [activeTab, setActiveTab] = useState('/');
   
-  // Update active tab based on location
-  useEffect(() => {
-    // Extract the base path
-    const path = location.pathname.split('/')[1];
-    setActiveTab('/' + path);
-  }, [location]);
-
-  const navigationItems = [
-    {
-      path: '/dashboard',
-      label: 'Home',
-      icon: Calendar
-    },
-    {
-      path: '/sources',
-      label: 'Sources',
-      icon: MessagesSquare
-    },
-    {
-      path: '/connected-apps',
-      label: 'Connect', 
-      icon: Network
-    },
-    {
-      path: '/notifications',
-      label: 'Alerts',
-      icon: Bell
-    },
-    {
-      path: '/settings',
-      label: 'Settings',
-      icon: Settings
-    }
+  const navItems = [
+    { icon: Home, label: 'Dashboard', path: '/dashboard' },
+    { icon: MessageSquare, label: 'Sources', path: '/sources' },
+    { icon: Bell, label: 'Notifications', path: '/notifications' },
+    { icon: Settings, label: 'Settings', path: '/settings' },
   ];
-
+  
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border z-40 md:hidden">
-      <nav className="flex items-center justify-around">
-        {navigationItems.map((item) => (
-          <NavLink
+    <div className="fixed bottom-0 left-0 right-0 bg-background border-t md:hidden z-10">
+      <nav className="flex justify-between px-2">
+        {navItems.map((item) => (
+          <Link
             key={item.path}
             to={item.path}
-            className="relative flex flex-col items-center justify-center py-2 flex-1"
-          >
-            {({ isActive }) => (
-              <>
-                {isActive && (
-                  <motion.div
-                    layoutId="mobileNavIndicator"
-                    className="absolute top-0 h-1 w-1/2 rounded-full bg-primary"
-                    initial={false}
-                    transition={{ type: "spring", bounce: 0.1, duration: 0.6 }}
-                  />
-                )}
-                <div className={cn(
-                  "flex flex-col items-center pt-1",
-                  isActive ? "text-primary" : "text-muted-foreground"
-                )}>
-                  <item.icon className="h-5 w-5 mb-1" />
-                  <span className="text-[10px] font-medium">{item.label}</span>
-                </div>
-              </>
+            className={cn(
+              "flex flex-col items-center py-2 px-3 text-xs",
+              location.pathname === item.path 
+                ? "text-primary" 
+                : "text-muted-foreground"
             )}
-          </NavLink>
+          >
+            <item.icon className="w-5 h-5 mb-1" />
+            <span>{item.label}</span>
+          </Link>
         ))}
       </nav>
     </div>
