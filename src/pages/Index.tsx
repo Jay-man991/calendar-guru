@@ -11,15 +11,20 @@ import TesterSection from '../components/TesterSection';
 import { EventType } from '../components/EventCard';
 import { RefreshCw } from 'lucide-react';
 import { toast } from 'sonner';
+import CalendarView from '../components/CalendarView';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Index = () => {
   const {
+    events,
     pendingEvents,
     confirmedEvents,
+    lastRefreshed,
     handleConfirmEvent,
     handleRejectEvent,
     handleSaveEvent,
-    handleNewEventDetected
+    handleNewEventDetected,
+    refreshEvents
   } = useEvents();
   
   const [activeTab, setActiveTab] = useState('pending');
@@ -27,6 +32,7 @@ const Index = () => {
   const [showForm, setShowForm] = useState(false);
   const [showNotification, setShowNotification] = useState(true);
   const [showTester, setShowTester] = useState(false);
+  const [currentDate, setCurrentDate] = useState(new Date());
   
   // Pull-to-refresh states
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -41,6 +47,11 @@ const Index = () => {
       setSelectedEvent(event);
       setShowForm(true);
     }
+  };
+  
+  const handleCalendarEventClick = (event: EventType) => {
+    setSelectedEvent(event);
+    setShowForm(true);
   };
 
   // Handle touch start
@@ -96,14 +107,12 @@ const Index = () => {
   };
 
   // Function to refresh events
-  const refreshEvents = async () => {
+  const handleRefreshEvents = async () => {
     setIsRefreshing(true);
     
     try {
-      // Simulate refresh delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Refresh logic here - you would typically call an API
+      // Perform the actual refresh
+      await refreshEvents();
       toast.success("Events refreshed successfully");
       
     } catch (error) {
@@ -159,15 +168,33 @@ const Index = () => {
           </motion.div>
         </motion.div>
         
-        <EventTabs 
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          pendingEvents={pendingEvents}
-          confirmedEvents={confirmedEvents}
-          onConfirm={handleConfirmEvent}
-          onEdit={handleEditEvent}
-          onReject={handleRejectEvent}
-        />
+        <Tabs defaultValue="events" className="w-full">
+          <TabsList className="w-full mb-4">
+            <TabsTrigger value="events" className="flex-1">Events</TabsTrigger>
+            <TabsTrigger value="calendar" className="flex-1">Calendar</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="events" className="mt-0">
+            <EventTabs 
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              pendingEvents={pendingEvents}
+              confirmedEvents={confirmedEvents}
+              onConfirm={handleConfirmEvent}
+              onEdit={handleEditEvent}
+              onReject={handleRejectEvent}
+            />
+          </TabsContent>
+          
+          <TabsContent value="calendar" className="mt-0">
+            <CalendarView
+              events={events}
+              currentDate={currentDate}
+              onDateChange={setCurrentDate}
+              onEventClick={handleCalendarEventClick}
+            />
+          </TabsContent>
+        </Tabs>
       </div>
       
       <EventForm
