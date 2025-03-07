@@ -27,7 +27,7 @@ const RegisterForm = () => {
       localStorage.setItem('isAuthenticated', 'true');
       localStorage.setItem('user', JSON.stringify({ name, email }));
       
-      toast.success("Registration successful! Welcome to DateMate.");
+      toast.success("Registration successful! Welcome to Calendar Guru.");
       navigate('/onboarding');
     } catch (error) {
       toast.error("Registration failed. Please try again.");

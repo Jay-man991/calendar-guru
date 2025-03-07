@@ -21,7 +21,7 @@ const Logo = ({ size = 'md', className }: LogoProps) => {
         <Calendar className="text-primary" />
         <Clock className="absolute text-accent w-3 h-3 -right-1 -bottom-1" />
       </div>
-      <span>GeeGee</span>
+      <span>Calendar Guru</span>
     </div>
   );
 };
