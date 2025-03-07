@@ -3,7 +3,8 @@ import React, { ReactNode } from 'react';
 import Navigation from './Navigation';
 import MobileNavigation from './MobileNavigation';
 import Logo from './Logo';
-import { RefreshCw, Clock } from 'lucide-react';
+import { CheckCheck, Clock } from 'lucide-react';
+import { Button } from './ui/button';
 
 interface LayoutProps {
   children: ReactNode;
@@ -34,20 +35,22 @@ const Layout: React.FC<LayoutProps> = ({ children, lastSyncText, onRefresh }) =>
           <Logo size="md" className="text-white" />
           
           {lastSyncText && onRefresh && (
-            <div className="flex items-center text-sm bg-white/20 hover:bg-white/30 px-4 py-2 rounded-full shadow-sm transition-all">
-              <button 
+            <div className="flex items-center text-xs bg-white/10 hover:bg-white/20 px-2.5 py-1.5 rounded-full shadow-sm transition-all">
+              <Button 
                 onClick={handleRefresh}
-                className="p-1.5 bg-white/20 hover:bg-white/30 rounded-full mr-2 transition-colors group"
+                className="p-1 h-6 w-6 bg-green-500 hover:bg-green-600 rounded-full mr-1.5 transition-colors flex items-center justify-center"
                 disabled={isRefreshing}
                 aria-label="Refresh events"
+                size="icon"
+                variant="default"
               >
-                <RefreshCw 
-                  size={16} 
-                  className={`text-white group-hover:text-white ${isRefreshing ? "animate-spin" : ""}`} 
+                <CheckCheck 
+                  size={12} 
+                  className={`text-white ${isRefreshing ? "animate-spin" : ""}`} 
                 />
-              </button>
+              </Button>
               <div className="flex items-center">
-                <Clock size={14} className="text-white/80 mr-1.5" />
+                <Clock size={10} className="text-white/80 mr-1" />
                 <span className="text-white font-medium">{lastSyncText}</span>
               </div>
             </div>
