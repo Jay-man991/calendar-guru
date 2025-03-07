@@ -18,7 +18,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   return (
     <header className="mb-6">
       <div className="flex justify-between items-center mb-2">
-        <h1 className="text-3xl font-bold">Welcome back!</h1>
+        <div></div>
         <Button variant="ghost" size="sm" onClick={logout} className="flex items-center gap-1">
           <LogOut className="h-4 w-4" />
           <span className="hidden sm:inline">Logout</span>
