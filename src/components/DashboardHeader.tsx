@@ -31,9 +31,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     <header className="mb-6 px-2 sm:px-0">
       <div className="flex justify-between items-center">
         <div>
-          <p className="text-gray-600 mt-1">
-            Accept or decline detected events
-          </p>
+          {/* The "Accept or decline detected events" paragraph has been removed */}
         </div>
         
         <div className="flex items-center text-sm bg-green-100 px-3 py-1 rounded-full shadow-sm">
