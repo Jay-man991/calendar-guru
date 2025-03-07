@@ -72,9 +72,10 @@ const EventCard: React.FC<EventCardProps> = ({
       </div>
       
       {event.description && (
-        <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+        <div className="message-bubble relative pl-3 pr-4 py-2 mb-4 bg-muted/70 rounded-lg rounded-tl-none border-l-2 border-primary/50 text-sm text-muted-foreground">
+          <div className="absolute -left-2 top-0 w-3 h-3 bg-muted/70 transform rotate-45"></div>
           {event.description}
-        </p>
+        </div>
       )}
       
       {event.status === 'pending' && (
