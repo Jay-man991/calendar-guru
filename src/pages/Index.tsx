@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import Layout from '../components/Layout';
 import EventForm from '../components/EventForm';
@@ -19,7 +18,7 @@ const Index = () => {
     events,
     pendingEvents,
     confirmedEvents,
-    lastRefreshed,
+    getLastSyncText,
     handleConfirmEvent,
     handleRejectEvent,
     handleSaveEvent,
@@ -126,7 +125,9 @@ const Index = () => {
     <Layout>
       <DashboardHeader 
         showTester={showTester} 
-        setShowTester={setShowTester} 
+        setShowTester={setShowTester}
+        lastSyncText={getLastSyncText()}
+        onRefresh={refreshEvents}
       />
 
       <TesterSection 

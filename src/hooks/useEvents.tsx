@@ -1,8 +1,8 @@
-
 import { useState } from 'react';
 import { EventType } from '../components/EventCard';
 import { toast } from "sonner";
 import { v4 as uuidv4 } from 'uuid';
+import { formatDistanceToNow } from 'date-fns';
 
 // Mock data for demonstration
 const initialEvents: EventType[] = [
@@ -48,6 +48,10 @@ export const useEvents = () => {
   const pendingEvents = events.filter(event => event.status === 'pending');
   const confirmedEvents = events.filter(event => event.status === 'confirmed');
   
+  const getLastSyncText = () => {
+    return formatDistanceToNow(lastRefreshed, { addSuffix: true });
+  };
+  
   const handleConfirmEvent = (id: string) => {
     setEvents(events.map(event => 
       event.id === id ? { ...event, status: 'confirmed' } : event
@@ -70,24 +74,21 @@ export const useEvents = () => {
   };
 
   const handleNewEventDetected = (newEvent: EventType) => {
-    // Add the new event to the list
     setEvents(prevEvents => [newEvent, ...prevEvents]);
   };
 
   const refreshEvents = async () => {
-    // In a real app, this would call an API
-    // For demo purposes, we'll add a random new event
     const currentDate = new Date();
     const randomEvent: EventType = {
       id: uuidv4(),
       title: `New Event ${Math.floor(Math.random() * 100)}`,
-      date: new Date(currentDate.getTime() + Math.random() * 7 * 24 * 60 * 60 * 1000), // Random date within the next week
+      date: new Date(currentDate.getTime() + Math.random() * 7 * 24 * 60 * 60 * 1000),
       time: `${Math.floor(Math.random() * 12 + 9)}:${Math.random() > 0.5 ? '30' : '00'} ${Math.random() > 0.5 ? 'AM' : 'PM'}`,
       location: 'Virtual Meeting',
       description: 'This event was added when you refreshed the events list.',
       source: ['email', 'whatsapp', 'sms'][Math.floor(Math.random() * 3)] as 'email' | 'whatsapp' | 'sms',
       status: 'pending',
-      confidence: Math.floor(Math.random() * 20) + 80 // Random confidence between 80-99
+      confidence: Math.floor(Math.random() * 20) + 80
     };
     
     setEvents(prevEvents => [randomEvent, ...prevEvents]);
@@ -100,6 +101,7 @@ export const useEvents = () => {
     pendingEvents,
     confirmedEvents,
     lastRefreshed,
+    getLastSyncText,
     handleConfirmEvent,
     handleRejectEvent,
     handleSaveEvent,
