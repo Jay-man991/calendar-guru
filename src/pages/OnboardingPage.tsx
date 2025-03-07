@@ -9,7 +9,7 @@ import { Check, ChevronRight, MessageCircle, Mail, Smartphone, Calendar } from '
 const steps = [
   {
     id: 'welcome',
-    title: 'Welcome to DateMate',
+    title: 'Welcome to GeeGee',
     description: 'Your personal date and event assistant that automatically detects events from your messages.',
     icon: Calendar
   },
@@ -137,7 +137,7 @@ const OnboardingPage = () => {
                 ))}
                 
                 <p className="text-xs text-muted-foreground mt-2">
-                  DateMate will only scan for event details and never store the content of your messages.
+                  GeeGee will only scan for event details and never store the content of your messages.
                 </p>
               </div>
             )}
@@ -177,7 +177,7 @@ const OnboardingPage = () => {
                   </div>
                 </motion.div>
                 <p className="text-center text-muted-foreground mb-4">
-                  You're ready to start managing your events effortlessly with DateMate!
+                  You're ready to start managing your events effortlessly with GeeGee!
                 </p>
               </div>
             )}
