@@ -20,7 +20,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
     setIsLoading(true);
     try {
       await googleLogin();
-      toast.success("Successfully signed in with Google!");
+      // Toast is displayed, navigation is handled in the googleLogin function
     } catch (error) {
       toast.error("Google sign-in failed. Please try again.");
       console.error("Google login error:", error);

@@ -59,8 +59,21 @@ const App = () => {
               />
               
               {/* Public routes */}
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={
+                isAuthenticated 
+                  ? hasCompletedOnboarding 
+                    ? <Navigate to="/dashboard" replace /> 
+                    : <Navigate to="/onboarding" replace />
+                  : <Login />
+              } />
+              
+              <Route path="/register" element={
+                isAuthenticated 
+                  ? hasCompletedOnboarding 
+                    ? <Navigate to="/dashboard" replace /> 
+                    : <Navigate to="/onboarding" replace />
+                  : <Register />
+              } />
               
               {/* Tutorial and Payment routes */}
               <Route path="/tutorial" element={<Tutorial />} />
