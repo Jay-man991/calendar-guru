@@ -11,7 +11,7 @@ const initialEvents: EventType[] = [
   {
     id: '1',
     title: 'Team Meeting with Marketing',
-    date: new Date(2023, 6, 15),
+    date: new Date(),
     time: '14:00',
     location: 'Conference Room 3',
     description: 'Quarterly review of marketing campaigns and strategy planning session.',
@@ -21,7 +21,7 @@ const initialEvents: EventType[] = [
   {
     id: '2',
     title: 'Dinner with Sarah',
-    date: new Date(2023, 6, 18),
+    date: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3 days from now
     time: '19:30',
     location: 'Bella Italia Restaurant',
     description: 'Catch-up dinner with Sarah. She mentioned wanting to try the new pasta dish.',
@@ -31,12 +31,13 @@ const initialEvents: EventType[] = [
   {
     id: '3',
     title: 'Dentist Appointment',
-    date: new Date(2023, 6, 20),
+    date: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5 days from now
     time: '10:15',
     location: 'Dr. Smith Dental Clinic',
     description: 'Regular check-up and cleaning.',
     source: 'sms',
-    status: 'confirmed'
+    status: 'confirmed',
+    isReminder: true
   }
 ];
 

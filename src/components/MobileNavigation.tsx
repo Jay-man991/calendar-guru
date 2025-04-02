@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Settings, Bell, MessageSquare, Home } from 'lucide-react';
+import { Settings, Bell, MessageSquare, Home, Calendar } from 'lucide-react';
 import { cn } from "@/lib/utils";
 
 const MobileNavigation: React.FC = () => {
@@ -9,6 +9,7 @@ const MobileNavigation: React.FC = () => {
   
   const navItems = [
     { icon: Home, label: 'Dashboard', path: '/dashboard' },
+    { icon: Calendar, label: 'Calendar', path: '/calendar' },
     { icon: MessageSquare, label: 'Sources', path: '/sources' },
     { icon: Bell, label: 'Notifications', path: '/notifications' },
     { icon: Settings, label: 'Settings', path: '/settings' },

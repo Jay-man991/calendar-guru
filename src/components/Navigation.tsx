@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Settings, Bell, MessageSquare, Home, Calendar, HelpCircle, User, LogOut } from 'lucide-react';
@@ -32,7 +31,6 @@ const Navigation: React.FC = () => {
     { icon: HelpCircle, label: 'Help', path: '/help' },
   ];
 
-  // Get user initials for avatar
   const getInitials = () => {
     if (!user) return 'U';
     
